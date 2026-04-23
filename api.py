@@ -117,6 +117,10 @@ async def read_root():
     with open("moodwave.html", "r", encoding="utf-8") as f:
         return f.read()
 
+@app.get("/health")
+async def health_check():
+    return {"status": "ok", "model_loaded": model is not None}
+
 @app.post("/predict")
 async def predict_emotion(data: AudioData):
     global model, encoder, mean, std
