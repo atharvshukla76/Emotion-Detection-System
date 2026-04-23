@@ -3,8 +3,9 @@
 > Real-time voice-based emotion detection powered by CNN, Mel Spectrogram & MFCC
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-UI%20Preview-99D775?style=for-the-badge&logo=github)](https://atharvshukla76.github.io/Emotion-Detection-System/)
-[![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)](https://python.org)
-[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-FF6F00?style=for-the-badge&logo=tensorflow)](https://tensorflow.org)
+[![Render](https://img.shields.io/badge/Render-Live%20AI%20Backend-46E3B7?style=for-the-badge&logo=render)](https://emotion-detection-system-1-ycpg.onrender.com)
+[![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python)](https://python.org)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-2.21-FF6F00?style=for-the-badge&logo=tensorflow)](https://tensorflow.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
 
 ---

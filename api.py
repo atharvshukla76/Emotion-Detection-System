@@ -28,6 +28,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://atharvshukla76.github.io",
+        "https://emotion-detection-system-1-ycpg.onrender.com",
         "http://localhost:8000",
         "http://127.0.0.1:8000",
         "http://localhost:8080",
