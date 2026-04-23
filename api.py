@@ -5,6 +5,7 @@ import librosa
 import tensorflow as tf
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 
@@ -21,6 +22,19 @@ HOP_LENGTH = 512
 MAX_FRAMES = 150
 
 app = FastAPI()
+
+# Allow GitHub Pages and localhost to call this API
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://atharvshukla76.github.io",
+        "http://localhost:8000",
+        "http://127.0.0.1:8000",
+        "http://localhost:8080",
+    ],
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
 
 model = None
 encoder = None

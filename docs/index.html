@@ -455,7 +455,11 @@
     </div>
   </div>
 
-  <script>
+    // ── Render backend URL ──────────────────────────────────────────
+    // This page is served from GitHub Pages. The AI backend lives on Render.
+    const RENDER_API = 'https://moodwave-emotion-detection.onrender.com';
+    // ────────────────────────────────────────────────────────────────
+
     const EMOTIONS = [
       { name: 'Happy', color: '#FFD700' },
       { name: 'Angry', color: '#FF3366' },
@@ -698,7 +702,7 @@
       console.log('[AUDIO] Sending', signalArray.length, 'samples at', browserSR, 'Hz to backend');
 
       try {
-        const response = await fetch('/predict', {
+        const response = await fetch(`${RENDER_API}/predict`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ signal: signalArray, sample_rate: browserSR })

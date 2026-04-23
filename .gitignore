@@ -7,3 +7,4 @@ temp.wav
 scratch.py
 history.json
 *.log
+saved_model/test_data.pkl
