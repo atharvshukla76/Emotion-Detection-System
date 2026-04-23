@@ -455,10 +455,9 @@
     </div>
   </div>
 
-    // ── Render backend URL ──────────────────────────────────────────
-    // This page is served from GitHub Pages. The AI backend lives on Render.
+  <script>
+    // Render backend URL — GitHub Pages calls the Render API cross-origin
     const RENDER_API = 'https://moodwave-emotion-detection.onrender.com';
-    // ────────────────────────────────────────────────────────────────
 
     const EMOTIONS = [
       { name: 'Happy', color: '#FFD700' },
