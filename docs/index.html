@@ -459,6 +459,23 @@
     // Render backend URL — GitHub Pages calls the Render API cross-origin
     const RENDER_API = 'https://emotion-detection-system-1-ycpg.onrender.com';
 
+    // ── Wake up the Render backend as soon as the page loads ──────────
+    // Free tier sleeps after inactivity. We ping it silently so it's warm
+    // by the time the user clicks "Start Analysis".
+    const statusText = document.querySelector('.status-text');
+    (async () => {
+      try {
+        statusText.textContent = 'WAKING NEURAL ENGINE...';
+        statusText.style.color = 'var(--color-neutral)';
+        await fetch(`${RENDER_API}/`, { method: 'GET', signal: AbortSignal.timeout(60000) });
+        statusText.textContent = 'NEURAL ANALYSIS ACTIVE';
+        statusText.style.color = 'var(--primary)';
+      } catch (e) {
+        statusText.textContent = 'BACKEND OFFLINE — TRY AGAIN';
+        statusText.style.color = 'var(--color-angry)';
+      }
+    })();
+
     const EMOTIONS = [
       { name: 'Happy', color: '#FFD700' },
       { name: 'Angry', color: '#FF3366' },
@@ -701,22 +718,33 @@
       console.log('[AUDIO] Sending', signalArray.length, 'samples at', browserSR, 'Hz to backend');
 
       try {
+        // 65s timeout — gives Render time to wake from sleep
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 65000);
+
+        cardTitle.textContent = 'Sending to AI...';
         const response = await fetch(`${RENDER_API}/predict`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ signal: signalArray, sample_rate: browserSR })
+          body: JSON.stringify({ signal: signalArray, sample_rate: browserSR }),
+          signal: controller.signal
         });
+        clearTimeout(timeoutId);
         
-        if (!response.ok) throw new Error("Server error");
+        if (!response.ok) throw new Error(`Server error ${response.status}`);
         
         const result = await response.json();
         showResults(result);
       } catch (err) {
         console.error(err);
-        cardTitle.textContent = "Analysis Failed";
-        cardTitle.style.color = "var(--color-angry)";
-        btnText.textContent = "Try Again";
-        btnIcon.textContent = "↺";
+        const isTimeout = err.name === 'AbortError';
+        cardTitle.textContent = isTimeout ? 'Timed Out — Retry' : 'Analysis Failed';
+        cardTitle.style.color = 'var(--color-angry)';
+        cardInstructions.textContent = isTimeout
+          ? '⚠ Backend waking up. Please try again in 10 seconds.'
+          : '⚠ Could not reach the AI server. Check your connection.';
+        btnText.textContent = 'Try Again';
+        btnIcon.textContent = '↺';
         startBtn.disabled = false;
         startBtn.classList.remove('recording');
         state = 'IDLE';
