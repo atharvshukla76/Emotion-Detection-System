@@ -1,0 +1,9 @@
+tf_env/
+__pycache__/
+*.pyc
+*.pyo
+.cache
+temp.wav
+scratch.py
+history.json
+*.log
